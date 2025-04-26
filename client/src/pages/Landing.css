@@ -1,0 +1,21 @@
+.landing {
+  background-color: black;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.heading {
+  color: white;
+}
+
+.start-button {
+  border: 1px solid white;
+  background: none;
+  color: red;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+}
