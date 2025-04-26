@@ -1,0 +1,1 @@
+xp formula: user.level = Math.floor(user.xp / 50) + 1;

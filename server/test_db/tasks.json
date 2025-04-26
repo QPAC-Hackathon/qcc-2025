@@ -1,0 +1,20 @@
+[
+    {
+        "taskID": "task_001",
+        "worldID": "1",
+        "description": "Take a selfie with at least two people!",
+        "xpReward": 50
+      },
+      {
+        "taskID": "task_002",
+        "worldID": "1",
+        "description": "Compliment at least two people!",
+        "xpReward": 75
+      },
+      {
+        "taskID": "task_003",
+        "worldID": 2,
+        "description": "Learn a new word and use it at least once in a conversation.",
+        "xpReward": 100
+      }
+]
