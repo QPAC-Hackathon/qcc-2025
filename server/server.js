@@ -1,5 +1,8 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -12,7 +15,7 @@ app.get("/api/tasks", (req, res) => {
   const worldID = req.query.worldID;
   const pathToTasks = path.join(__dirname, 'test_db', 'tasks.json');
 
-  FileSystem.readFile(pathToTasks, 'utf8', (err, data) => {
+  fs.readFile(pathToTasks, 'utf8', (err, data) => {
     if (err) {
       console.error("Unable to read tasks.json", err);
       return res.status(500).json({ error: "Unable to load tasks." });
@@ -21,18 +24,18 @@ app.get("/api/tasks", (req, res) => {
     let tasks = JSON.parse(data);
 
     if (worldID) {
-      tasks = tasks.filter(task => task.worldID === worldID);
+      tasks = tasks.filter(task => task.worldID == worldID);
     }
 
     res.json(tasks);
-  })
+  });
 });
 
 app.get("/api/users/:accountID", (req, res) => {
   const accountID = req.params.accountID;
   const pathToUsers = path.join(__dirname, 'test_db', 'users.json');
 
-  FileSystem.readFile(pathToUsers, 'utf8', (err, data) => {
+  fs.readFile(pathToUsers, 'utf8', (err, data) => {
     if (err) {
       console.error("Unable to read users.json", err);
       return res.status(500).json({ error: "Unable to load users." });
@@ -46,27 +49,27 @@ app.get("/api/users/:accountID", (req, res) => {
     }
 
     res.json(user);
-  })
-})
+  });
+});
 
 app.post("/api/users/:accountID/complete-task", (req, res) => {
   const accountID = req.params.accountID;
   const { taskID } = req.body;
 
   if (!taskID) {
-    return res.status(400).json({ error: "TaskID is not processed." });
+    return res.status(400).json({ error: "TaskID is required." });
   }
 
   const pathToTasks = path.join(__dirname, 'test_db', 'tasks.json');
   const pathToUsers = path.join(__dirname, 'test_db', 'users.json');
-  
-  FileSystem.readFile(pathToUsers, 'utf-8', (userErr, userData) => {
+
+  fs.readFile(pathToUsers, 'utf8', (userErr, userData) => {
     if (userErr) {
       console.error("Error reading users.json:", userErr);
-      return res.status(500).json({ error: "Failed to load users." })
+      return res.status(500).json({ error: "Failed to load users." });
     }
 
-    fs.readFile(pathToTasks, 'utf8', (taskErr, task) => {
+    fs.readFile(pathToTasks, 'utf8', (taskErr, taskData) => {
       if (taskErr) {
         console.error("Error reading tasks.json:", taskErr);
         return res.status(500).json({ error: "Failed to load tasks." });
@@ -80,7 +83,7 @@ app.post("/api/users/:accountID/complete-task", (req, res) => {
         return res.status(404).json({ error: "User not found." });
       }
 
-      const task = tasks.find(t => t.taskId === taskId);
+      const task = tasks.find(t => t.taskID === taskID);
       if (!task) {
         return res.status(404).json({ error: "Task not found." });
       }
@@ -88,14 +91,14 @@ app.post("/api/users/:accountID/complete-task", (req, res) => {
       const user = users[userIndex];
 
       if (user.tasksCompleted.includes(taskID)) {
-        return res.status(400).json({ error: "Task has already been completed before." })
+        return res.status(400).json({ error: "Task already completed." });
       }
 
       user.xp += task.xpReward;
       user.level = Math.floor(user.xp / 50) + 1;
       user.tasksCompleted.push(taskID);
 
-      fs.writeFile(usersPath, JSON.stringify(users, null, 2), 'utf8', (writeErr) => {
+      fs.writeFile(pathToUsers, JSON.stringify(users, null, 2), 'utf8', (writeErr) => {
         if (writeErr) {
           console.error("Error writing users.json:", writeErr);
           return res.status(500).json({ error: "Failed to save user progress." });
@@ -109,13 +112,13 @@ app.post("/api/users/:accountID/complete-task", (req, res) => {
 app.post("/api/users", (req, res) => {
   const { accountID, name } = req.body;
 
-  if (!accountId || !name) {
+  if (!accountID || !name) {
     return res.status(400).json({ error: "Account ID and Name are required." });
   }
 
   const pathToUsers = path.join(__dirname, 'test_db', 'users.json');
 
-  fs.readFile(usersPath, 'utf8', (readErr, data) => {
+  fs.readFile(pathToUsers, 'utf8', (readErr, data) => {
     if (readErr) {
       console.error("Error reading users.json:", readErr);
       return res.status(500).json({ error: "Failed to load users." });
@@ -123,13 +126,13 @@ app.post("/api/users", (req, res) => {
 
     const users = JSON.parse(data);
 
-    const existingUserCheck = users.find(u => u.accountId === accountId);
+    const existingUserCheck = users.find(u => u.accountID === accountID);
     if (existingUserCheck) {
-      return res.status(400).json({ error: "User with this Account ID already exists." });
+      return res.status(400).json({ error: "User already exists." });
     }
 
     const newUser = {
-      accountId,
+      accountID,
       name,
       xp: 0,
       level: 1,
@@ -138,7 +141,7 @@ app.post("/api/users", (req, res) => {
 
     users.push(newUser);
 
-    fs.writeFile(usersPath, JSON.stringify(users, null, 2), 'utf8', (writeErr) => {
+    fs.writeFile(pathToUsers, JSON.stringify(users, null, 2), 'utf8', (writeErr) => {
       if (writeErr) {
         console.error("Error writing users.json:", writeErr);
         return res.status(500).json({ error: "Failed to save new user." });
