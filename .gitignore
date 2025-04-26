@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -14,6 +13,7 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -22,7 +22,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-=======
-# Ignore all node_modules folders
-**/node_modules/
->>>>>>> 3b3aac2939c170bc80df0214add7f74129c41344
