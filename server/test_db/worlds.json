@@ -1,0 +1,32 @@
+[
+    {
+        "worldID": 0,
+        "worldName": "Personal",
+        "description": "Personal enrichment"
+    },
+    {
+        "worldID": 1,
+        "worldName": "Social",
+        "description": "Social enrichment"
+    },
+    {
+        "worldID": 2,
+        "worldName": "Learning",
+        "description": "Learning enrichment"
+    },
+    {
+        "worldID": 3,
+        "worldName": "Food",
+        "description": "Food enrichment"
+    },
+    {
+        "worldID": 4,
+        "worldName": "Travel",
+        "description": "Travel enrichment"
+    },
+    {
+        "worldID": 5,
+        "worldName": "Physical",
+        "description": "Physical enrichment"
+    }
+]
