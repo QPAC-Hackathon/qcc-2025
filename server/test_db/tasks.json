@@ -1,20 +1,44 @@
 [
     {
         "taskID": "task_001",
-        "worldID": "1",
+        "worldID": 1,
         "description": "Take a selfie with at least two people!",
         "xpReward": 50
-      },
-      {
+    },
+    {
         "taskID": "task_002",
-        "worldID": "1",
+        "worldID": 1,
         "description": "Compliment at least two people!",
         "xpReward": 75
-      },
-      {
+    },
+    {
         "taskID": "task_003",
         "worldID": 2,
         "description": "Learn a new word and use it at least once in a conversation.",
         "xpReward": 100
-      }
+     },
+    {
+        "taskID": "task_004",
+        "worldID": 5,
+        "description": "Walk more than 10,000 steps.",
+        "xpReward": 75
+    },
+    {
+        "taskID": "task_005",
+        "worldID": 0,
+        "description": "Take a 5 minute break from whatever you're doing. No electronics!",
+        "xpReward": 50
+    },
+    {
+        "taskID": "task_006",
+        "worldID": 3,
+        "description": "Try a new menu item at your favorite cafe.",
+        "xpReward": 100
+    },
+    {
+        "taskID": "task_007",
+        "worldID": 4,
+        "description": "Try a new restaurant nearby!",
+        "xpReward": 25
+    }
 ]
